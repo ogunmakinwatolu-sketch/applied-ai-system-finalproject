@@ -3,19 +3,19 @@
 ## Demo Walkthrough
 
 ### Landing Page
-![Landing Page](assets/demo/Landing%20Page.png)
+![Landing Page](assets/Demo/Landing%20Page.png)
 
 ### Profile 1 — Pop / Happy / High Energy
-![First Profile Recommendation](assets/demo/First%20Profile%20Recommendation.png)
-![First Profile Recommendation 2](assets/demo/First%20Profile%20Recommendation%202.png)
-![First Profile Recommendation 3](assets/demo/First%20Profile%20Recommendation%203.png)
+![First Profile Recommendation](assets/Demo/First%20Profile%20Recommendation.png)
+![First Profile Recommendation 2](assets/Demo/First%20Profile%20Recommendation%202.png)
+![First Profile Recommendation 3](assets/Demo/First%20Profile%20Recommendation%203.png)
 
 ### Profile 2 — Jazz / Relaxed / Acoustic
-![Second Profile Recommendation](assets/demo/Second%20Profile%20Recommendation%20.png)
-![Second Profile Recommendation 2](assets/demo/Second%20Profile%20Recommendation%202.png)
+![Second Profile Recommendation](assets/Demo/Second%20Profile%20Recommendation%20.png)
+![Second Profile Recommendation 2](assets/Demo/Second%20Profile%20Recommendation%202.png)
 
 ### Tests Passing
-![Tests](assets/demo/Tests.png)
+![Tests](assets/Demo/Tests.png)
 
 ---
 
@@ -61,7 +61,7 @@ flowchart TD
     T -.->|mocks| C
 ```
 
-![Architecture Diagram](assets/diagram/Architecture.png)
+![Architecture Diagram](assets/Diagram/Architecture.png)
 
 **Components:**
 
