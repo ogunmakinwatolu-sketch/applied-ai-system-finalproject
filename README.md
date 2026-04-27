@@ -1,8 +1,21 @@
 # 🎵 VibeFinder AI 1.0 — Music Recommender
 
-## Video Walkthrough
+## Demo Walkthrough
 
-[Watch the Loom walkthrough](https://www.loom.com/share/your-link-here)
+### Landing Page
+![Landing Page](assets/demo/Landing%20Page.png)
+
+### Profile 1 — Pop / Happy / High Energy
+![First Profile Recommendation](assets/demo/First%20Profile%20Recommendation.png)
+![First Profile Recommendation 2](assets/demo/First%20Profile%20Recommendation%202.png)
+![First Profile Recommendation 3](assets/demo/First%20Profile%20Recommendation%203.png)
+
+### Profile 2 — Jazz / Relaxed / Acoustic
+![Second Profile Recommendation](assets/demo/Second%20Profile%20Recommendation%20.png)
+![Second Profile Recommendation 2](assets/demo/Second%20Profile%20Recommendation%202.png)
+
+### Tests Passing
+![Tests](assets/demo/Tests.png)
 
 ---
 
@@ -47,6 +60,8 @@ flowchart TD
     T([pytest\n22 tests]) -.->|validates| S
     T -.->|mocks| C
 ```
+
+![Architecture Diagram](assets/diagram/Architecture.png)
 
 **Components:**
 
