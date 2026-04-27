@@ -13,3 +13,10 @@ venv/
 
 # Pytest cache
 .pytest_cache/
+
+# Environment / secrets
+.env
+.env.file
+
+# Logs
+logs/
