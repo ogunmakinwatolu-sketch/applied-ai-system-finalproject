@@ -13,6 +13,8 @@ from src.ai_recommender import (
     build_context,
     confidence_label,
     generate_recommendation,
+    load_genre_guide,
+    retrieve_genre_context,
 )
 
 
@@ -206,3 +208,77 @@ def test_top_confidence_empty():
     score, label = AIRecommender.top_confidence([])
     assert score == 0.0
     assert label == "None"
+
+
+# ── Genre guide retrieval tests ───────────────────────────────────────────────
+
+_SAMPLE_GUIDE = """
+## pop
+
+Pop music is built for broad appeal with catchy melodies and polished production.
+
+---
+
+## lofi
+
+Lofi is defined by its imperfections and calm atmosphere.
+
+---
+"""
+
+
+def test_retrieve_genre_context_known_genre():
+    ctx = retrieve_genre_context("pop", _SAMPLE_GUIDE)
+    assert "broad appeal" in ctx
+    assert "catchy melodies" in ctx
+
+
+def test_retrieve_genre_context_case_insensitive():
+    ctx = retrieve_genre_context("POP", _SAMPLE_GUIDE)
+    assert "broad appeal" in ctx
+
+
+def test_retrieve_genre_context_unknown_genre():
+    ctx = retrieve_genre_context("classical", _SAMPLE_GUIDE)
+    assert ctx == ""
+
+
+def test_retrieve_genre_context_empty_guide():
+    ctx = retrieve_genre_context("pop", "")
+    assert ctx == ""
+
+
+def test_load_genre_guide_missing_file():
+    result = load_genre_guide("nonexistent/path/guide.md")
+    assert result == ""
+
+
+def test_build_context_includes_genre_context():
+    ctx = build_context(_POP_USER, _SCORED_SONGS, genre_context="Pop is energetic and catchy.")
+    assert "Pop is energetic and catchy." in ctx
+    assert "Test Pop Track" in ctx
+
+
+def test_build_context_without_genre_context():
+    ctx = build_context(_POP_USER, _SCORED_SONGS, genre_context="")
+    assert "genre guide" not in ctx.lower()
+    assert "Test Pop Track" in ctx
+
+
+def test_generate_recommendation_prompt_includes_genre_context():
+    mock_client = MagicMock()
+    mock_response = MagicMock()
+    mock_response.content = [MagicMock(text="Great picks!")]
+    mock_client.messages.create.return_value = mock_response
+
+    import tempfile, os
+    with tempfile.NamedTemporaryFile(mode="w", suffix=".md", delete=False, encoding="utf-8") as f:
+        f.write("## pop\n\nPop is fun and energetic.\n\n---\n")
+        tmp_path = f.name
+
+    try:
+        generate_recommendation(_POP_USER, _SCORED_SONGS, client=mock_client, genre_guide_path=tmp_path)
+        prompt_text = str(mock_client.messages.create.call_args)
+        assert "Pop is fun and energetic" in prompt_text
+    finally:
+        os.unlink(tmp_path)

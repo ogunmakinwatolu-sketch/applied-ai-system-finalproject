@@ -1,5 +1,11 @@
 # 🎵 VibeFinder AI 1.0 — Music Recommender
 
+## Video Walkthrough
+
+[Watch the Loom walkthrough](https://www.loom.com/share/your-link-here)
+
+---
+
 ## Original Project (Modules 1–3)
 
 **Music Recommender Simulation** was a rule-based song recommender built in Modules 1–3.
@@ -47,17 +53,20 @@ flowchart TD
 | Component | File | Role |
 |---|---|---|
 | Scoring engine | `src/recommender.py` | Deterministic retrieval — scores every song |
-| RAG layer | `src/ai_recommender.py` | Formats context, calls Claude, returns reply |
+| RAG layer | `src/ai_recommender.py` | Multi-source retrieval, formats context, calls Claude |
+| Genre guide | `docs/genre_guide.md` | Second retrieval source — genre descriptions |
 | Streamlit UI | `src/app.py` | Web interface — sidebar profile, results panel |
 | CLI runner | `src/main.py` | Terminal demo with three preset profiles |
-| Test suite | `tests/test_recommender.py` | 22 unit tests; Claude calls are mocked |
+| Test suite | `tests/test_recommender.py` | 29 unit tests; Claude calls are mocked |
 
-**Data flow:**
+**Data flow (multi-source RAG):**
 
 ```
-User input → UserProfile → score every song → rank top-k
-         → build_context (retrieved songs as text block)
-         → Claude (system + user prompt)
+User input → UserProfile
+         → Source 1: score every song → rank top-k
+         → Source 2: retrieve genre description from docs/genre_guide.md
+         → build_context (songs + genre context combined)
+         → Claude (system + user prompt with both sources)
          → natural-language recommendation + confidence labels
 ```
 
@@ -219,14 +228,15 @@ is intentional — the architecture scales without code changes.
 
 ## Testing Summary
 
-20 tests across two categories:
+28 tests across three categories:
 
 | Category | Tests | Notes |
 |---|---|---|
 | Scoring engine | 7 | Genre/mood/energy weights, edge cases, empty catalog |
 | AI layer | 13 | Confidence labels, context formatting, Claude mock calls, error handling |
+| Genre retrieval | 8 | Guide loading, section extraction, missing file, multi-source context |
 
-**Results:** All 20 tests pass. Claude API calls are fully mocked in tests — no API key
+**Results:** All 28 tests pass. Claude API calls are fully mocked in tests — no API key
 needed to run the test suite.
 
 **Key findings:**
